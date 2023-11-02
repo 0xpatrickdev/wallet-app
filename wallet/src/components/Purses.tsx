@@ -2,7 +2,8 @@ import { useState } from 'react';
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import Button from '@mui/material/Button';
-import IbcTransfer, { IbcDirection } from './IbcTransfer';
+import { IbcDirection } from './IbcTransfer';
+import LeapIbcTransfer from './LeapIbcTransfer';
 import PurseAmount from './PurseAmount';
 import { withApplicationContext } from '../contexts/Application';
 import CardItem from './CardItem';
@@ -117,7 +118,7 @@ export const PursesWithoutContext = ({
       <Card header="Purses" helptip={helptip}>
         {purseItems}
       </Card>
-      <IbcTransfer
+      <LeapIbcTransfer
         isShowing={isIbcTransferShowing}
         purse={transferPurse.purse}
         direction={transferPurse.direction ?? IbcDirection.Deposit}

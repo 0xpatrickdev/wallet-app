@@ -170,7 +170,7 @@ const Provider = ({ children }) => {
     BackendSchema['actions']
   > | null>(null);
   const [backendErrorHandler, setBackendErrorHandler] = useState(null);
-  const [previewEnabled, setPreviewEnabled] = useState(false);
+  const [previewEnabled, setPreviewEnabled] = useState(true);
   // expose for development
   // @ts-expect-error window keys
   window.setPreviewEnabled = setPreviewEnabled;

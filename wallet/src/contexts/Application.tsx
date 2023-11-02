@@ -15,6 +15,7 @@ export const ConnectionStatus = {
 export const withApplicationContext = (Component, mapContextToProps) => {
   const MemoizedComponent = memo(Component);
   return ({ ...props }) => {
+    console.log('Component', Component, props);
     const context = mapContextToProps(useContext(ApplicationContext));
 
     return <MemoizedComponent {...context} {...props} />;

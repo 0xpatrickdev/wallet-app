@@ -1,7 +1,8 @@
 // cribbed from https://www.npmjs.com/package/react-app-rewire-multiple-entry
 /* global __dirname, require, module */
-
+// const fs = require('fs');
 const path = require('path');
+const { ProvidePlugin } = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const multiEntry = require('react-app-rewire-multiple-entry');
 
@@ -21,7 +22,17 @@ const multipleEntry = multiEntry([
 ]);
 
 module.exports = function override(config, _env) {
-  config.resolve.fallback = { path: false, crypto: false };
+  config.resolve.fallback = { 
+    path: false,
+    crypto: false,
+    buffer: require.resolve("buffer/"),
+    http: require.resolve("stream-http"),
+    https: require.resolve("https-browserify"),
+    assert: require.resolve("assert/"),
+    stream: require.resolve("stream-browserify"),
+    url: require.resolve("url/")
+  };
+  
   config.ignoreWarnings = [/Failed to parse source map/];
 
   const htmlWebpackPlugin = config.plugins.find(
@@ -48,6 +59,10 @@ module.exports = function override(config, _env) {
   };
   const plug2 = new HtmlWebPackPlugin(opts);
   config.plugins.push(plug2);
+  const bufferPlugin = new ProvidePlugin({
+    Buffer: ['buffer', 'Buffer'],
+  });
+  config.plugins.push(bufferPlugin);
   config.module.rules = [
     ...config.module.rules,
     {
@@ -57,5 +72,6 @@ module.exports = function override(config, _env) {
       },
     },
   ];
+  // fs.writeFileSync('rewired.log.json', JSON.stringify(config, null, 2), 'utf-8');
   return config;
 };
